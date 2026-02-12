@@ -5,17 +5,28 @@
     let petals = [];
 
     onMount(() => {
-        // Create floating lotus petals - Increased count and size
-        for (let i = 0; i < 35; i++) {
-            petals.push({
-                x: Math.random() * 100,
-                y: Math.random() * 120 - 20, // Start some off screen
-                rotation: Math.random() * 360,
-                duration: 10 + Math.random() * 10,
-                delay: Math.random() * 5,
-                size: 50 + Math.random() * 70, // Larger
-            });
-        }
+        const updatePetals = () => {
+            const isMobile = window.innerWidth < 768;
+            const count = isMobile ? 25 : 50; // More count since they are small
+            const baseSize = isMobile ? 8 : 12; // Very small like confetti/blossoms
+
+            petals = [];
+            for (let i = 0; i < count; i++) {
+                petals.push({
+                    x: Math.random() * 100,
+                    y: Math.random() * 120 - 20,
+                    rotation: Math.random() * 360,
+                    duration: 15 + Math.random() * 15, // Slower fall for smaller items
+                    delay: Math.random() * 5,
+                    size: baseSize + Math.random() * (isMobile ? 10 : 20),
+                });
+            }
+        };
+
+        updatePetals();
+        window.addEventListener("resize", updatePetals);
+
+        return () => window.removeEventListener("resize", updatePetals);
     });
 </script>
 
