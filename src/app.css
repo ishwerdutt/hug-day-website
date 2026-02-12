@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ivory: #FFF9F3;
+  --color-blush: #F7D8D8;
+  --color-amber: #FCE8C8;
+  --color-twilight: #2B2735;
+  --color-gold: #E6D4A3;
+
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--color-twilight);
+  color: var(--color-ivory);
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 1s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-heading);
+}
+
+/* Custom Scrollbar for Webkit */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-twilight);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+/* Utilities */
+.cinematic-text {
+  text-shadow: 0 0 10px rgba(255, 249, 243, 0.3);
+}
+
+/* Custom fade animation if not covered by svelte transitions */
+.fade-in {
+  animation: fadeIn 2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
