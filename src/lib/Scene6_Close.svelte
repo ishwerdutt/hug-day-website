@@ -38,6 +38,17 @@
             >
                 Halfway hugs still remember us.
             </p>
+
+            <!-- Footer -->
+            <div
+                class="absolute bottom-8 left-0 right-0 text-center opacity-60"
+            >
+                <p
+                    class="text-sm md:text-base font-light tracking-widest text-gold/80 uppercase"
+                >
+                    Oh Vinland, my Vinland
+                </p>
+            </div>
         </div>
     {/if}
 </section>

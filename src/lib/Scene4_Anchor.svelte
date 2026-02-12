@@ -2,17 +2,18 @@
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
 
-    let particles = [];
+    let petals = [];
 
     onMount(() => {
-        // Simple particle generation
-        for (let i = 0; i < 20; i++) {
-            particles.push({
+        // Create floating lotus petals - Increased count and size
+        for (let i = 0; i < 35; i++) {
+            petals.push({
                 x: Math.random() * 100,
-                y: Math.random() * 100,
-                duration: 5 + Math.random() * 10,
+                y: Math.random() * 120 - 20, // Start some off screen
+                rotation: Math.random() * 360,
+                duration: 10 + Math.random() * 10,
                 delay: Math.random() * 5,
-                size: 2 + Math.random() * 4,
+                size: 50 + Math.random() * 70, // Larger
             });
         }
     });
@@ -21,50 +22,56 @@
 <section
     class="min-h-screen w-full flex items-center justify-center relative overflow-hidden starry-gradient px-6"
 >
-    <!-- Enhanced Particles -->
-    {#each particles as p}
+    <!-- Floating Lotus Petals -->
+    {#each petals as petal}
         <div
-            class="absolute bg-gold/50 rounded-full blur-sm animate-float"
-            style="left: {p.x}%; top: {p.y}%; width: {p.size}px; height: {p.size}px; animation-duration: {p.duration}s; animation-delay: {p.delay}s;"
+            class="lotus-petal"
+            style="left: {petal.x}%; top: {petal.y}%; width: {petal.size}px; height: {petal.size}px; animation-duration: {petal.duration}s; animation-delay: {petal.delay}s; --rotation: {petal.rotation}deg;"
         ></div>
     {/each}
 
     <div
-        class="z-10 text-center max-w-4xl mx-auto w-full flex flex-col items-center gap-12"
+        class="z-10 max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center justify-center gap-12 px-6"
     >
-        <h3
-            class="text-3xl md:text-5xl lg:text-6xl font-heading leading-relaxed text-ivory drop-shadow-2xl px-4"
-        >
-            "And maybe…<br />
-            the greatest hug is the one that stays in the heart."
-        </h3>
+        <!-- Text Side -->
+        <div class="flex-1 text-center md:text-right">
+            <h3
+                class="text-3xl md:text-5xl lg:text-6xl font-heading leading-relaxed text-ivory drop-shadow-2xl"
+            >
+                "And maybe…<br />
+                the greatest hug is the one that stays in the heart,<br />
+                like my Vinland in heart of mine."
+            </h3>
+        </div>
 
-        <!-- Video Card -->
-        <div
-            class="bg-white/10 backdrop-blur-md p-4 pb-8 rounded-2xl border border-ivory/20 shadow-2xl max-w-md w-full mx-6 transform hover:scale-105 transition-all duration-500 group"
-        >
+        <!-- Card Side -->
+        <div class="flex-1 flex justify-center md:justify-start">
             <div
-                class="rounded-xl overflow-hidden shadow-lg border border-ivory/10 relative"
+                class="bg-white/10 backdrop-blur-md p-4 pb-8 rounded-2xl border border-ivory/20 shadow-2xl max-w-xs w-full transform hover:scale-105 transition-all duration-500 group"
             >
                 <div
-                    class="absolute inset-0 bg-twilight/20 z-10 group-hover:bg-transparent transition-colors duration-500"
-                ></div>
-                <!-- svelte-ignore a11y-media-has-caption -->
-                <video
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    class="w-full aspect-[3/4] object-cover"
+                    class="rounded-xl overflow-hidden shadow-lg border border-ivory/10 relative"
                 >
-                    <source src="/all_i_want.mp4" type="video/mp4" />
-                </video>
+                    <div
+                        class="absolute inset-0 bg-twilight/20 z-10 group-hover:bg-transparent transition-colors duration-500"
+                    ></div>
+                    <!-- svelte-ignore a11y-media-has-caption -->
+                    <video
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        class="w-full aspect-[3/4] object-cover"
+                    >
+                        <source src="/yellow.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <p
+                    class="text-xl md:text-2xl font-heading text-ivory mt-6 tracking-wide italic opacity-90 text-center"
+                >
+                    "All I want is you"
+                </p>
             </div>
-            <p
-                class="text-xl md:text-2xl font-heading text-ivory mt-6 tracking-wide italic opacity-90"
-            >
-                "All I want is you"
-            </p>
         </div>
     </div>
 </section>
@@ -86,23 +93,40 @@
         }
     }
 
-    @keyframes float {
-        0% {
-            transform: translateY(0) translateX(0);
-            opacity: 0;
-        }
-        50% {
-            opacity: 0.8;
-        }
-        100% {
-            transform: translateY(-100px) translateX(20px);
-            opacity: 0;
-        }
+    /* Lotus Petal Styles */
+    /* Lotus Petal Styles */
+    .lotus-petal {
+        position: absolute;
+        background: radial-gradient(
+            ellipse at center,
+            rgba(252, 232, 200, 0.9) 0%,
+            rgba(247, 216, 216, 0.8) 40%,
+            rgba(230, 212, 163, 0.6) 80%,
+            transparent 100%
+        );
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(var(--rotation));
+        opacity: 0;
+        animation: floatPetal linear infinite;
+        pointer-events: none;
+        box-shadow: 0 0 15px rgba(252, 232, 200, 0.3); /* Add glow */
     }
 
-    .animate-float {
-        animation-name: float;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
+    @keyframes floatPetal {
+        0% {
+            transform: translateY(110vh) rotate(var(--rotation)) scale(0.6);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1; /* Make them fully visible quickly */
+        }
+        90% {
+            opacity: 0.9;
+        }
+        100% {
+            transform: translateY(-30vh) rotate(calc(var(--rotation) + 360deg))
+                scale(1.3);
+            opacity: 0;
+        }
     }
 </style>
